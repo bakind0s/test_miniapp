@@ -1,0 +1,1660 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--tg-theme-bg-color, #ffffff);
+    color: var(--tg-theme-text-color, #000000);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--tg-theme-text-color, #000000);
+    font-size: 28px;
+    font-weight: 700;
+    padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 24px;
+        margin-bottom: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        padding: 0 15px;
+    }
+}
+
+h2, h3 {
+    margin-bottom: 15px;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+/* Форма пользователя */
+#user-info-screen {
+    text-align: center;
+}
+
+#user-info-screen p {
+    margin-bottom: 30px;
+    color: var(--tg-theme-hint-color, #666666);
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--tg-theme-button-color, #007aff);
+    border-radius: 8px;
+    font-size: 16px;
+    background: var(--tg-theme-bg-color, #ffffff);
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--tg-theme-button-color, #007aff);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+/* Кнопки */
+.btn-primary, .btn-secondary, .btn-success {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background: var(--tg-theme-button-color, #007aff);
+    color: var(--tg-theme-button-text-color, #ffffff);
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background: var(--tg-theme-secondary-bg-color, #f0f0f0);
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.btn-success {
+    background: #34c759;
+    color: white;
+}
+
+/* Информация о выбранном тесте */
+.selected-test-card {
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border: 2px solid var(--tg-theme-button-color, #007aff);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.selected-test-card h3 {
+    margin-bottom: 15px;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+#test-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--tg-theme-button-color, #007aff);
+    margin-bottom: 8px;
+}
+
+#test-description {
+    font-size: 14px;
+    color: var(--tg-theme-hint-color, #666666);
+}
+
+/* Меню тестов */
+.tests-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 0 20px;
+}
+
+.test-card {
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border: 2px solid var(--tg-theme-button-color, #007aff);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.test-card:hover:not(.disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.test-card.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #ccc;
+}
+
+.test-card h3 {
+    margin-bottom: 8px;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.test-card p {
+    color: var(--tg-theme-hint-color, #666666);
+    margin-bottom: 10px;
+}
+
+.test-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.test-status:not(.completed) {
+    background: #ff9500;
+    color: white;
+}
+
+.test-status.completed {
+    background: #34c759;
+    color: white;
+}
+
+/* Инструкция для тестов */
+.test-instruction {
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border: 2px solid var(--tg-theme-button-color, #007aff);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.test-instruction h3 {
+    margin-bottom: 15px;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.test-instruction p {
+    margin-bottom: 15px;
+    color: var(--tg-theme-text-color, #000000);
+    font-size: 14px;
+}
+
+.instruction-scale {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 15px;
+    overflow-x: auto;
+    padding: 5px;
+}
+
+.instruction-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 4px;
+    background: var(--tg-theme-bg-color, #ffffff);
+    border-radius: 4px;
+    border: 1px solid var(--tg-theme-hint-color, #e0e0e0);
+    min-width: 35px;
+    flex-shrink: 0;
+}
+
+.instruction-number {
+    font-weight: bold;
+    color: var(--tg-theme-button-color, #007aff);
+    font-size: 12px;
+}
+
+.instruction-text {
+    font-size: 8px;
+    color: var(--tg-theme-text-color, #000000);
+    text-align: center;
+    line-height: 1.1;
+}
+
+/* Тест САН */
+.test-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.test-header p {
+    color: var(--tg-theme-hint-color, #666666);
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--tg-theme-secondary-bg-color, #f0f0f0);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--tg-theme-button-color, #007aff);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.question-counter {
+    font-size: 14px;
+    color: var(--tg-theme-hint-color, #666666);
+}
+
+.question-container {
+    margin-bottom: 30px;
+}
+
+.question-item {
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.question-number {
+    font-weight: 500;
+    margin-bottom: 15px;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.question-pair {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.question-text {
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--tg-theme-text-color, #000000);
+    font-weight: 500;
+    padding: 10px;
+    background: var(--tg-theme-bg-color, #ffffff);
+    border-radius: 8px;
+    border: 1px solid var(--tg-theme-hint-color, #e0e0e0);
+}
+
+.scale {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 15px;
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border-radius: 8px;
+}
+
+.scale-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+    min-width: 30px;
+}
+
+.scale-option:hover {
+    background: var(--tg-theme-hint-color, #f0f0f0);
+}
+
+.scale-option input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--tg-theme-button-color, #007aff);
+    cursor: pointer;
+}
+
+.scale-option input[type="radio"]:checked + .scale-number {
+    color: var(--tg-theme-button-color, #007aff);
+    font-weight: bold;
+}
+
+.scale-number {
+    font-size: 10px;
+    color: var(--tg-theme-text-color, #000000);
+    font-weight: 500;
+}
+
+/* Горизонтальная шкала для PSM-25 */
+.psm25-scale {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 15px;
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border-radius: 8px;
+}
+
+.psm25-scale-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 6px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+    min-width: 35px;
+}
+
+.psm25-scale-option:hover {
+    background: var(--tg-theme-hint-color, #f0f0f0);
+}
+
+.psm25-scale-option input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--tg-theme-button-color, #007aff);
+    cursor: pointer;
+}
+
+.psm25-scale-option input[type="radio"]:checked + .psm25-scale-number {
+    color: var(--tg-theme-button-color, #007aff);
+    font-weight: bold;
+}
+
+.psm25-scale-number {
+    font-size: 12px;
+    color: var(--tg-theme-text-color, #000000);
+    font-weight: 500;
+}
+
+.test-navigation {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.test-navigation button {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+/* Результаты */
+.results-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.result-card {
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+}
+
+.result-card h3 {
+    margin-bottom: 15px;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.score-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.score {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--tg-theme-button-color, #007aff);
+}
+
+.score-label {
+    font-size: 14px;
+    color: var(--tg-theme-hint-color, #666666);
+}
+
+.interpretation {
+    font-size: 14px;
+    color: var(--tg-theme-text-color, #000000);
+    line-height: 1.4;
+}
+
+.results-summary,
+.results-recommendations {
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.results-summary h3,
+.results-recommendations h3 {
+    margin-bottom: 15px;
+    color: var(--tg-theme-text-color, #000000);
+    text-align: center;
+}
+
+.summary-text,
+.recommendations-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.recommendations-text ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.recommendations-text li {
+    margin-bottom: 8px;
+}
+
+.results-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Адаптивность */
+@media (min-width: 480px) {
+    .user-info-content {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .tests-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .results-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .test-navigation {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .scale {
+        gap: 3px;
+    }
+    
+    .scale-option {
+        min-width: 35px;
+    }
+}
+
+@media (min-width: 768px) {
+    .results-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .question-text {
+        font-size: 18px;
+    }
+    
+    .scale {
+        gap: 4px;
+    }
+    
+    .scale-option {
+        min-width: 40px;
+        padding: 6px;
+    }
+    
+    .psm25-scale {
+        gap: 10px;
+    }
+    
+    .psm25-scale-option {
+        min-width: 40px;
+    }
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.screen.active {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Стили для теста тревоги */
+.anxiety-radio-scale {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    justify-content: center;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.anxiety-radio-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.anxiety-radio-option input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin: 0 0 8px 0;
+    cursor: pointer;
+    appearance: none;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background: white;
+    position: relative;
+}
+
+.anxiety-radio-option input[type="radio"]:checked {
+    border-color: #007bff;
+    background: #007bff;
+}
+
+.anxiety-radio-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+.anxiety-radio-number {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
+/* Стили для теста выгорания */
+.burnout-radio-scale {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    justify-content: center;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.burnout-radio-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.burnout-radio-option input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin: 0 0 8px 0;
+    cursor: pointer;
+    appearance: none;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background: white;
+    position: relative;
+}
+
+.burnout-radio-option input[type="radio"]:checked {
+    border-color: #007bff;
+    background: #007bff;
+}
+
+.burnout-radio-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+.burnout-radio-number {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
+.level-indicator {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.level-indicator.low {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.level-indicator.medium {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.level-indicator.high {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Адаптивность для теста тревоги */
+@media (max-width: 480px) {
+    .anxiety-radio-scale {
+        gap: 10px;
+    }
+    
+    .anxiety-radio-option input[type="radio"] {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .anxiety-radio-option input[type="radio"]:checked::after {
+        width: 6px;
+        height: 6px;
+    }
+    
+    .anxiety-radio-number {
+        font-size: 14px;
+    }
+}
+
+/* Адаптивность для теста выгорания */
+@media (max-width: 480px) {
+    .burnout-radio-scale {
+        gap: 10px;
+    }
+    
+    .burnout-radio-option input[type="radio"] {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .burnout-radio-option input[type="radio"]:checked::after {
+        width: 6px;
+        height: 6px;
+    }
+    
+    .burnout-radio-number {
+        font-size: 14px;
+    }
+}
+
+/* Стили для теста депрессии */
+.depression-options {
+    margin: 20px 0;
+}
+
+.depression-option {
+    display: block;
+    margin: 15px 0;
+    padding: 15px;
+    border: 2px solid var(--tg-theme-secondary-bg-color, #f0f0f0);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: var(--tg-theme-bg-color, #ffffff);
+}
+
+.depression-option:hover {
+    border-color: var(--tg-theme-button-color, #007aff);
+    background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
+}
+
+.depression-option input[type="radio"] {
+    margin-right: 10px;
+    transform: scale(1.1);
+}
+
+.depression-option input[type="radio"]:checked + .depression-option-text {
+    color: var(--tg-theme-button-color, #007aff);
+    font-weight: bold;
+}
+
+.depression-option:has(input[type="radio"]:checked) {
+    border-color: var(--tg-theme-button-color, #007aff);
+    background-color: var(--tg-theme-button-color, #007aff);
+    color: white;
+}
+
+.depression-option:has(input[type="radio"]:checked) .depression-option-text {
+    color: white;
+    font-weight: bold;
+}
+
+.depression-option-text {
+    display: inline-block;
+    line-height: 1.4;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.score-description {
+    font-size: 14px;
+    color: var(--tg-theme-hint-color, #666666);
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* Адаптивность для теста депрессии */
+@media (max-width: 480px) {
+    .depression-option {
+        padding: 12px;
+        margin: 10px 0;
+    }
+    
+    .depression-option-text {
+        font-size: 14px;
+    }
+}
+
+/* Стили для главного меню */
+.main-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.menu-item {
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border: 2px solid var(--tg-theme-button-color, #007aff);
+    border-radius: 16px;
+    padding: 30px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.menu-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 122, 255, 0.2);
+    border-color: var(--tg-theme-button-color, #007aff);
+}
+
+.menu-item h2 {
+    margin: 0;
+    color: var(--tg-theme-text-color, #000000);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Стили для страниц */
+.page-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding: 0 20px;
+}
+
+.back-button {
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border: 2px solid var(--tg-theme-button-color, #007aff);
+    border-radius: 8px;
+    padding: 8px 16px;
+    color: var(--tg-theme-text-color, #000000);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.back-button:hover {
+    background: var(--tg-theme-button-color, #007aff);
+    color: var(--tg-theme-button-text-color, #ffffff);
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.page-content {
+    padding: 0 20px;
+}
+
+.page-description {
+    text-align: center;
+    color: var(--tg-theme-hint-color, #666666);
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+.placeholder-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+.placeholder-card {
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border: 2px solid var(--tg-theme-button-color, #007aff);
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.placeholder-card h3 {
+    margin-bottom: 15px;
+    color: var(--tg-theme-text-color, #000000);
+    font-size: 20px;
+}
+
+.placeholder-card p {
+    color: var(--tg-theme-hint-color, #666666);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.placeholder-card p:last-child {
+    margin-bottom: 0;
+}
+
+/* Адаптивность для главного меню */
+@media (max-width: 768px) {
+    .main-menu {
+        max-width: 90%;
+        gap: 15px;
+    }
+    
+    .menu-item {
+        padding: 25px 15px;
+    }
+    
+    .menu-item h2 {
+        font-size: 18px;
+    }
+    
+    .page-header h1 {
+        font-size: 20px;
+    }
+    
+    .tests-grid {
+        padding: 0 15px;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-menu {
+        padding: 0 15px;
+        gap: 12px;
+    }
+    
+    .menu-item {
+        padding: 20px 15px;
+    }
+    
+    .menu-item h2 {
+        font-size: 16px;
+    }
+    
+    .page-header {
+        padding: 0 15px;
+        margin-bottom: 20px;
+    }
+    
+    .page-header h1 {
+        font-size: 18px;
+    }
+    
+    .back-button {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+    
+    .page-content {
+        padding: 0 15px;
+    }
+    
+    .page-description {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+    
+    .placeholder-card {
+        padding: 30px 15px;
+    }
+    
+    .placeholder-card h3 {
+        font-size: 18px;
+    }
+    
+    .tests-grid {
+        padding: 0 10px;
+        gap: 12px;
+    }
+}
+
+/* Стили для теста на буллинг */
+.bullying-question-text {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--tg-theme-text-color, #000000);
+    margin: 20px 0;
+    padding: 15px;
+    background: var(--tg-theme-bg-color, #ffffff);
+    border-radius: 8px;
+    border: 1px solid var(--tg-theme-hint-color, #e0e0e0);
+    text-align: center;
+    font-weight: 500;
+}
+
+.bullying-radio-scale {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.bullying-radio-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    padding: 15px 25px;
+    border: 2px solid var(--tg-theme-secondary-bg-color, #f0f0f0);
+    border-radius: 12px;
+    background: var(--tg-theme-bg-color, #ffffff);
+    transition: all 0.2s ease;
+    min-width: 120px;
+}
+
+.bullying-radio-option:hover {
+    border-color: var(--tg-theme-button-color, #007aff);
+    background: var(--tg-theme-secondary-bg-color, #f0f0f0);
+}
+
+.bullying-radio-option input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin: 0 0 8px 0;
+    cursor: pointer;
+    appearance: none;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background: white;
+    position: relative;
+}
+
+.bullying-radio-option input[type="radio"]:checked {
+    border-color: var(--tg-theme-button-color, #007aff);
+    background: var(--tg-theme-button-color, #007aff);
+}
+
+.bullying-radio-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+.bullying-radio-option:has(input[type="radio"]:checked) {
+    border-color: var(--tg-theme-button-color, #007aff);
+    background: var(--tg-theme-button-color, #007aff);
+    color: white;
+}
+
+.bullying-radio-text {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--tg-theme-text-color, #000000);
+    text-align: center;
+}
+
+.bullying-radio-option:has(input[type="radio"]:checked) .bullying-radio-text {
+    color: white;
+    font-weight: bold;
+}
+
+/* Адаптивность для теста на буллинг */
+@media (max-width: 480px) {
+    .bullying-radio-scale {
+        gap: 15px;
+    }
+    
+    .bullying-radio-option {
+        padding: 12px 20px;
+        min-width: 100px;
+    }
+    
+    .bullying-radio-option input[type="radio"] {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .bullying-radio-option input[type="radio"]:checked::after {
+        width: 6px;
+        height: 6px;
+    }
+    
+    .bullying-radio-text {
+        font-size: 14px;
+    }
+    
+    .bullying-question-text {
+        font-size: 14px;
+        padding: 12px;
+    }
+}
+
+/* Стили для теста Д. Олвеуса "Буллинг" */
+.olweus-radio-scale {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.olweus-radio-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    padding: 12px 16px;
+    border: 2px solid var(--tg-theme-secondary-bg-color, #f0f0f0);
+    border-radius: 12px;
+    background: var(--tg-theme-bg-color, #ffffff);
+    transition: all 0.2s ease;
+    min-width: 100px;
+    text-align: center;
+}
+
+.olweus-radio-option:hover {
+    border-color: var(--tg-theme-button-color, #007aff);
+    background: var(--tg-theme-secondary-bg-color, #f0f0f0);
+}
+
+.olweus-radio-option input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    margin: 0 0 8px 0;
+    cursor: pointer;
+    appearance: none;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background: white;
+    position: relative;
+}
+
+.olweus-radio-option input[type="radio"]:checked {
+    border-color: var(--tg-theme-button-color, #007aff);
+    background: var(--tg-theme-button-color, #007aff);
+}
+
+.olweus-radio-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: white;
+}
+
+.olweus-radio-option:has(input[type="radio"]:checked) {
+    border-color: var(--tg-theme-button-color, #007aff);
+    background: var(--tg-theme-button-color, #007aff);
+    color: white;
+}
+
+.olweus-radio-text {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--tg-theme-text-color, #000000);
+    text-align: center;
+    line-height: 1.2;
+}
+
+.olweus-radio-option:has(input[type="radio"]:checked) .olweus-radio-text {
+    color: white;
+    font-weight: bold;
+}
+
+/* Адаптивность для теста Д. Олвеуса */
+@media (max-width: 480px) {
+    .olweus-radio-scale {
+        gap: 8px;
+    }
+    
+    .olweus-radio-option {
+        padding: 10px 12px;
+        min-width: 80px;
+    }
+    
+    .olweus-radio-option input[type="radio"] {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .olweus-radio-option input[type="radio"]:checked::after {
+        width: 5px;
+        height: 5px;
+    }
+    
+    .olweus-radio-text {
+        font-size: 10px;
+    }
+}
+
+/* Стили для теста агрессивного поведения */
+.aggression-radio-scale {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    margin: 25px 0;
+    align-items: center;
+}
+
+.aggression-radio-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    padding: 15px 25px;
+    border: 2px solid var(--tg-theme-secondary-bg-color, #e0e0e0);
+    border-radius: 12px;
+    background: var(--tg-theme-bg-color, #ffffff);
+    min-width: 90px;
+    transition: all 0.3s ease;
+}
+
+.aggression-radio-option:hover {
+    border-color: var(--tg-theme-button-color, #007aff);
+    background: var(--tg-theme-secondary-bg-color, #f0f0f0);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 123, 255, 0.15);
+}
+
+.aggression-radio-option input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin: 0 0 8px 0;
+    cursor: pointer;
+    appearance: none;
+    border: 2px solid var(--tg-theme-secondary-bg-color, #e0e0e0);
+    border-radius: 50%;
+    background: var(--tg-theme-bg-color, #ffffff);
+    position: relative;
+}
+
+.aggression-radio-option input[type="radio"]:checked {
+    border-color: var(--tg-theme-button-color, #007aff);
+    background: var(--tg-theme-button-color, #007aff);
+}
+
+.aggression-radio-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+}
+
+.aggression-radio-option:has(input[type="radio"]:checked) {
+    border-color: var(--tg-theme-button-color, #007aff);
+    background: var(--tg-theme-button-color, #007aff);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25);
+}
+
+.aggression-radio-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--tg-theme-text-color, #000000);
+    text-align: center;
+    letter-spacing: 0.3px;
+}
+
+.aggression-radio-option:has(input[type="radio"]:checked) .aggression-radio-text {
+    color: white;
+    font-weight: bold;
+}
+
+/* Адаптивность для теста агрессивного поведения */
+@media (max-width: 480px) {
+    .aggression-radio-scale {
+        gap: 15px;
+        margin: 20px 0;
+    }
+    
+    .aggression-radio-option {
+        padding: 12px 18px;
+        min-width: 80px;
+    }
+    
+    .aggression-radio-option input[type="radio"] {
+        width: 18px;
+        height: 18px;
+        margin: 0 0 6px 0;
+    }
+    
+    .aggression-radio-option input[type="radio"]:checked::after {
+        width: 5px;
+        height: 5px;
+    }
+    
+    .aggression-radio-text {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 360px) {
+    .aggression-radio-scale {
+        gap: 12px;
+    }
+    
+    .aggression-radio-option {
+        padding: 10px 15px;
+        min-width: 70px;
+    }
+    
+    .aggression-radio-text {
+        font-size: 15px;
+    }
+}
+
+/* Стили для формы консультации */
+.consultation-form-container {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-description {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-description h3 {
+    margin-bottom: 10px;
+    color: var(--tg-theme-text-color, #000000);
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.form-description p {
+    color: var(--tg-theme-hint-color, #666666);
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.consultation-form {
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border: 2px solid var(--tg-theme-button-color, #007aff);
+    border-radius: 16px;
+    padding: 30px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.consultation-form .form-group {
+    margin-bottom: 25px;
+}
+
+.consultation-form .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--tg-theme-text-color, #000000);
+    font-size: 16px;
+}
+
+.consultation-form .form-group input,
+.consultation-form .form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--tg-theme-hint-color, #e0e0e0);
+    border-radius: 10px;
+    font-size: 16px;
+    background: var(--tg-theme-bg-color, #ffffff);
+    color: var(--tg-theme-text-color, #000000);
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.consultation-form .form-group input:focus,
+.consultation-form .form-group textarea:focus {
+    outline: none;
+    border-color: var(--tg-theme-button-color, #007aff);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+.consultation-form .form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.5;
+}
+
+.char-counter {
+    text-align: right;
+    margin-top: 5px;
+    font-size: 12px;
+    color: var(--tg-theme-hint-color, #666666);
+}
+
+.char-counter.warning {
+    color: #ff9500;
+}
+
+.char-counter.error {
+    color: #ff3b30;
+}
+
+.form-actions {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.consultation-form .btn-primary {
+    background: var(--tg-theme-button-color, #007aff);
+    color: var(--tg-theme-button-text-color, #ffffff);
+    border: none;
+    border-radius: 12px;
+    padding: 16px 32px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+.consultation-form .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+}
+
+.consultation-form .btn-primary:active {
+    transform: translateY(0);
+}
+
+.consultation-form .btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Сообщение об успешной отправке */
+.success-message {
+    text-align: center;
+    padding: 40px 20px;
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border: 2px solid #34c759;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(52, 199, 89, 0.2);
+}
+
+.success-icon {
+    width: 60px;
+    height: 60px;
+    background: #34c759;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0 auto 20px;
+    animation: successPulse 0.6s ease;
+}
+
+@keyframes successPulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.success-message h3 {
+    margin-bottom: 15px;
+    color: var(--tg-theme-text-color, #000000);
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.success-message p {
+    color: var(--tg-theme-hint-color, #666666);
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+.success-message .btn-primary {
+    background: #34c759;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    max-width: 250px;
+    box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);
+}
+
+.success-message .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 199, 89, 0.4);
+}
+
+/* Адаптивность для формы консультации */
+@media (max-width: 768px) {
+    .consultation-form-container {
+        max-width: 90%;
+    }
+    
+    .consultation-form {
+        padding: 25px 15px;
+    }
+    
+    .form-description h3 {
+        font-size: 20px;
+    }
+    
+    .form-description p {
+        font-size: 15px;
+    }
+    
+    .consultation-form .form-group input,
+    .consultation-form .form-group textarea {
+        padding: 12px 14px;
+        font-size: 15px;
+    }
+    
+    .consultation-form .btn-primary {
+        padding: 14px 28px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .consultation-form-container {
+        max-width: 95%;
+    }
+    
+    .consultation-form {
+        padding: 20px 12px;
+    }
+    
+    .form-description h3 {
+        font-size: 18px;
+    }
+    
+    .form-description p {
+        font-size: 14px;
+    }
+    
+    .consultation-form .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .consultation-form .form-group label {
+        font-size: 15px;
+    }
+    
+    .consultation-form .form-group input,
+    .consultation-form .form-group textarea {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    
+    .consultation-form .btn-primary {
+        padding: 12px 24px;
+        font-size: 15px;
+    }
+    
+    .success-message {
+        padding: 30px 15px;
+    }
+    
+    .success-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+    
+    .success-message h3 {
+        font-size: 20px;
+    }
+    
+    .success-message p {
+        font-size: 14px;
+    }
+}
+
+/* Стили для Telegram WebApp */
+.tg-viewport {
+    height: 100vh;
+    overflow-y: auto;
+}

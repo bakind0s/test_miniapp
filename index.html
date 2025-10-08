@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Психологические тесты</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="config.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Главный экран с тремя разделами -->
+        <div id="main-screen" class="screen active">
+            <h1>Психологические тесты</h1>
+            
+            <div class="main-menu">
+                <div class="menu-item" data-section="burnout-stress-depression">
+                    <h2>Выгорание, стресс, тревожность</h2>
+                </div>
+                <div class="menu-item" data-section="bullying">
+                    <h2>Буллинг</h2>
+                </div>
+                <div class="menu-item" data-section="consultation">
+                    <h2>Записаться на консультацию</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Страница: Выгорание, стресс, депрессия -->
+        <div id="burnout-stress-depression-screen" class="screen">
+            <div class="page-header">
+                <button class="back-button" onclick="showMainScreen()">← Назад</button>
+                <h1>Выгорание, стресс, тревожность</h1>
+            </div>
+            <div class="page-content">
+                <p class="page-description">Выберите тест для прохождения</p>
+                <div class="tests-grid">
+                    <div class="test-card" data-test="san">
+                        <h3>САН</h3>
+                        <p>Самочувствие - Активность - Настроение</p>
+                        <span class="test-status" id="san-status">Не пройден</span>
+                    </div>
+                    <div class="test-card" data-test="psm25">
+                        <h3>PSM-25</h3>
+                        <p>Шкала психологического стресса</p>
+                        <span class="test-status" id="psm25-status">Не пройден</span>
+                    </div>
+                    <div class="test-card" data-test="burnout">
+                        <h3>Опросник выгорания</h3>
+                        <p>Профессиональное выгорание</p>
+                        <span class="test-status" id="burnout-status">Не пройден</span>
+                    </div>
+                    <div class="test-card" data-test="anxiety">
+                        <h3>Шкала тревоги</h3>
+                        <p>Ситуационная и личностная тревожность</p>
+                        <span class="test-status" id="anxiety-status">Не пройден</span>
+                    </div>
+                    <div class="test-card" data-test="depression">
+                        <h3>Шкала депрессии</h3>
+                        <p>Оценка депрессивных симптомов</p>
+                        <span class="test-status" id="depression-status">Не пройден</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Страница: Буллинг -->
+        <div id="bullying-screen" class="screen">
+            <div class="page-header">
+                <button class="back-button" onclick="showMainScreen()">← Назад</button>
+                <h1>Буллинг</h1>
+            </div>
+            <div class="page-content">
+                <p class="page-description">Выберите тест для прохождения</p>
+                <div class="tests-grid">
+                    <div class="test-card" data-test="bullying">
+                        <h3>Опросник риска буллинга</h3>
+                        <p>Оценка атмосферы в школе и риска буллинга</p>
+                        <span class="test-status" id="bullying-status">Не пройден</span>
+                    </div>
+                    <div class="test-card" data-test="olweus-bullying">
+                        <h3>Буллинг</h3>
+                        <p>Опросник Д. Олвеуса на выявление проявлений буллинга и подверженности ему</p>
+                        <span class="test-status" id="olweus-bullying-status">Не пройден</span>
+                    </div>
+                    <div class="test-card" data-test="aggression">
+                        <h3>Диагностика агрессивного поведения</h3>
+                        <p>Опросник Л.Г. Почебут для оценки агрессивного поведения</p>
+                        <span class="test-status" id="aggression-status">Не пройден</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Страница: Записаться на консультацию -->
+        <div id="consultation-screen" class="screen">
+            <div class="page-header">
+                <button class="back-button" onclick="showMainScreen()">← Назад</button>
+                <h1>Записаться на консультацию</h1>
+            </div>
+            <div class="page-content">
+                <div class="consultation-form-container">
+                    <div class="form-description">
+                        <h3>Запись на консультацию</h3>
+                        <p>Заполните форму ниже, и мы свяжемся с вами для записи на консультацию</p>
+                    </div>
+                    
+                    <form id="consultation-form" class="consultation-form">
+                        <div class="form-group">
+                            <label for="consultation-name">Имя *</label>
+                            <input type="text" id="consultation-name" name="name" required 
+                                   placeholder="Введите ваше имя" maxlength="100">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="consultation-phone">Номер телефона *</label>
+                            <input type="tel" id="consultation-phone" name="phone" required 
+                                   placeholder="+7 (999) 123-45-67" maxlength="20">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="consultation-problem">Ваша проблема *</label>
+                            <textarea id="consultation-problem" name="problem" required 
+                                      placeholder="Опишите причину, по которой вы хотите записаться на консультацию" 
+                                      maxlength="1000" rows="5"></textarea>
+                            <div class="char-counter">
+                                <span id="problem-char-count">0</span>/1000 символов
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary" id="consultation-submit-btn">
+                                Записаться на консультацию
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div id="consultation-success" class="success-message" style="display: none;">
+                        <div class="success-icon">✓</div>
+                        <h3>Заявка отправлена!</h3>
+                        <p>Спасибо за обращение. Мы свяжемся с вами в ближайшее время для записи на консультацию.</p>
+                        <button class="btn-primary" onclick="showMainScreen()">Вернуться в главное меню</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран ввода данных пользователя -->
+        <div id="user-info-screen" class="screen">
+            <h1>Психологические тесты</h1>
+            <p>Перед началом тестирования, пожалуйста, укажите ваши данные:</p>
+            
+            <!-- Информация о выбранном тесте -->
+            <div id="selected-test-info" class="selected-test-card" style="display: none;">
+                <h3>Выбранный тест</h3>
+                <div id="test-name">САН</div>
+                <div id="test-description">Самочувствие - Активность - Настроение</div>
+            </div>
+            
+            <form id="user-info-form">
+                <div class="form-group">
+                    <label for="gender">Пол:</label>
+                    <select id="gender" required>
+                        <option value="">Выберите пол</option>
+                        <option value="male">Мужской</option>
+                        <option value="female">Женский</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="age">Возраст:</label>
+                    <input type="number" id="age" min="1" max="120" required placeholder="Введите ваш возраст">
+                </div>
+                
+                <div class="form-group">
+                    <label for="group">Номер группы:</label>
+                    <input type="text" id="group" placeholder="Введите номер группы">
+                </div>
+                
+                <button type="submit" class="btn-primary">Начать тестирование</button>
+            </form>
+        </div>
+
+        <!-- Экран теста PSM-25 -->
+        <div id="psm25-test-screen" class="screen">
+            <div class="test-header">
+                <h1>Тест PSM-25</h1>
+                <p>Шкала психологического стресса</p>
+                
+                <!-- Инструкция для PSM-25 -->
+                <div class="test-instruction">
+                    <h3>Инструкция</h3>
+                    <p>Оцените свое состояние за последнюю неделю. Выберите цифру от 1 до 8, которая лучше всего описывает частоту ваших переживаний:</p>
+                    <div class="instruction-scale">
+                        <div class="instruction-item">
+                            <span class="instruction-number">1</span>
+                            <span class="instruction-text">никогда</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">2</span>
+                            <span class="instruction-text">крайне редко</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">3</span>
+                            <span class="instruction-text">очень редко</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">4</span>
+                            <span class="instruction-text">редко</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">5</span>
+                            <span class="instruction-text">иногда</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">6</span>
+                            <span class="instruction-text">часто</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">7</span>
+                            <span class="instruction-text">очень часто</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">8</span>
+                            <span class="instruction-text">постоянно</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="psm25-progress"></div>
+                </div>
+                <p class="question-counter">Вопрос <span id="psm25-current-question">1</span> из 25</p>
+            </div>
+
+            <div class="test-content">
+                <div class="question-container" id="psm25-question-container">
+                    <!-- Вопросы будут загружены динамически -->
+                </div>
+                
+                <div class="test-navigation">
+                    <button id="psm25-prev-question" class="btn-secondary" disabled>Назад</button>
+                    <button id="psm25-next-question" class="btn-primary">Далее</button>
+                    <button id="psm25-finish-test" class="btn-success" style="display: none;">Завершить тест</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран теста САН -->
+        <div id="san-test-screen" class="screen">
+            <div class="test-header">
+                <h1>Тест САН</h1>
+                <p>Самочувствие - Активность - Настроение</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="san-progress"></div>
+                </div>
+                <p class="question-counter">Вопрос <span id="current-question">1</span> из 30</p>
+            </div>
+
+            <div class="test-content">
+                <div class="question-container" id="question-container">
+                    <!-- Вопросы будут загружены динамически -->
+                </div>
+                
+                <div class="test-navigation">
+                    <button id="prev-question" class="btn-secondary" disabled>Назад</button>
+                    <button id="next-question" class="btn-primary">Далее</button>
+                    <button id="finish-test" class="btn-success" style="display: none;">Завершить тест</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран результатов PSM-25 -->
+        <div id="psm25-results-screen" class="screen">
+            <h1>Результаты теста PSM-25</h1>
+            <div class="results-container">
+                <div class="result-card">
+                    <h3>Общий балл стресса</h3>
+                    <div class="score-display">
+                        <span class="score" id="psm25-total-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="interpretation" id="psm25-total-interpretation"></div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Уровень стресса</h3>
+                    <div class="score-display">
+                        <span class="score" id="psm25-level-score">0</span>
+                        <span class="score-label">из 8</span>
+                    </div>
+                    <div class="interpretation" id="psm25-level-interpretation"></div>
+                </div>
+            </div>
+            
+            <div class="results-summary">
+                <h3>Интерпретация результатов</h3>
+                <div class="summary-text" id="psm25-summary-text"></div>
+            </div>
+            
+            <div class="results-recommendations">
+                <h3>Рекомендации</h3>
+                <div class="recommendations-text" id="psm25-recommendations-text"></div>
+            </div>
+            
+            <div class="results-actions">
+                <button id="psm25-back-to-menu" class="btn-primary">Вернуться к тестам</button>
+                <button id="psm25-restart-test" class="btn-secondary">Пройти тест заново</button>
+            </div>
+        </div>
+
+        <!-- Экран результатов САН -->
+        <div id="results-screen" class="screen">
+            <h1>Результаты теста САН</h1>
+            <div class="results-container">
+                <div class="result-card">
+                    <h3>Самочувствие</h3>
+                    <div class="score-display">
+                        <span class="score" id="wellbeing-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="interpretation" id="wellbeing-interpretation"></div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Активность</h3>
+                    <div class="score-display">
+                        <span class="score" id="activity-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="interpretation" id="activity-interpretation"></div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Настроение</h3>
+                    <div class="score-display">
+                        <span class="score" id="mood-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="interpretation" id="mood-interpretation"></div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Общий балл</h3>
+                    <div class="score-display">
+                        <span class="score" id="total-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="interpretation" id="total-interpretation"></div>
+                </div>
+            </div>
+            
+            <div class="results-summary">
+                <h3>Общая оценка состояния</h3>
+                <div class="summary-text" id="summary-text"></div>
+            </div>
+            
+            <div class="results-recommendations">
+                <h3>Рекомендации</h3>
+                <div class="recommendations-text" id="recommendations-text"></div>
+            </div>
+            
+            <div class="results-actions">
+                <button id="back-to-menu" class="btn-primary">Вернуться к тестам</button>
+                <button id="restart-test" class="btn-secondary">Пройти тест заново</button>
+            </div>
+        </div>
+
+        <!-- Экран теста выгорания -->
+        <div id="burnout-test-screen" class="screen">
+            <div class="test-header">
+                <h1>Опросник выгорания</h1>
+                <p>Профессиональное выгорание</p>
+                
+                <!-- Инструкция для теста выгорания -->
+                <div class="test-instruction">
+                    <h3>Инструкция</h3>
+                    <p>Пожалуйста, ответьте, как часто Вы испытываете чувства, перечисленные в каждом из пунктов опросника. Над ответами долго не задумывайтесь, отвечайте, руководствуясь первым впечатлением.</p>
+                    <div class="instruction-scale">
+                        <div class="instruction-item">
+                            <span class="instruction-number">0</span>
+                            <span class="instruction-text">никогда</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">1</span>
+                            <span class="instruction-text">очень редко</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">2</span>
+                            <span class="instruction-text">редко</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">3</span>
+                            <span class="instruction-text">иногда</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">4</span>
+                            <span class="instruction-text">часто</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">5</span>
+                            <span class="instruction-text">очень часто</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">6</span>
+                            <span class="instruction-text">каждый день</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="burnout-progress"></div>
+                </div>
+                <p class="question-counter">Вопрос <span id="burnout-current-question">1</span> из 22</p>
+            </div>
+
+            <div class="test-content">
+                <div class="question-container" id="burnout-question-container">
+                    <!-- Вопросы будут загружены динамически -->
+                </div>
+                
+                <div class="test-navigation">
+                    <button id="burnout-prev-question" class="btn-secondary" disabled>Назад</button>
+                    <button id="burnout-next-question" class="btn-primary">Далее</button>
+                    <button id="burnout-finish-test" class="btn-success" style="display: none;">Завершить тест</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран результатов теста выгорания -->
+        <div id="burnout-results-screen" class="screen">
+            <h1>Результаты теста выгорания</h1>
+            <div class="results-container">
+                <div class="result-card">
+                    <h3>Эмоциональное истощение</h3>
+                    <div class="score-display">
+                        <span class="score" id="burnout-emotional-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="burnout-emotional-level">Низкий уровень</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Деперсонализация</h3>
+                    <div class="score-display">
+                        <span class="score" id="burnout-depersonalization-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="burnout-depersonalization-level">Низкий уровень</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Редукция профессионализма</h3>
+                    <div class="score-display">
+                        <span class="score" id="burnout-professional-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="burnout-professional-level">Низкий уровень</div>
+                </div>
+                
+                <div class="result-summary" id="burnout-summary">
+                    <!-- Сводка результатов будет загружена динамически -->
+                </div>
+                
+                <div class="result-recommendations" id="burnout-recommendations">
+                    <!-- Рекомендации будут загружены динамически -->
+                </div>
+            </div>
+            
+            <div class="results-actions">
+                <button id="burnout-back-to-menu" class="btn-primary">Вернуться к тестам</button>
+                <button id="burnout-restart-test" class="btn-secondary">Пройти тест заново</button>
+            </div>
+        </div>
+
+        <!-- Экран теста тревоги -->
+        <div id="anxiety-test-screen" class="screen">
+            <div class="test-header">
+                <h1>Шкала тревоги</h1>
+                <p>Ситуационная и личностная тревожность</p>
+                
+                <!-- Инструкция для теста тревоги -->
+                <div class="test-instruction">
+                    <h3>Инструкция</h3>
+                    <p id="anxiety-instruction-text">Прочитайте каждое из приведенных ниже предложений и обведите цифру в соответствующей графе справа в зависимости от самочувствия в данный момент.</p>
+                    <div class="instruction-scale">
+                        <div class="instruction-item">
+                            <span class="instruction-number">1</span>
+                            <span class="instruction-text" id="anxiety-scale-text-1">Нет, это не так</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">2</span>
+                            <span class="instruction-text" id="anxiety-scale-text-2">Пожалуй, так</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">3</span>
+                            <span class="instruction-text" id="anxiety-scale-text-3">Верно</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">4</span>
+                            <span class="instruction-text" id="anxiety-scale-text-4">Совершенно верно</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="anxiety-progress"></div>
+                </div>
+                <p class="question-counter">Вопрос <span id="anxiety-current-question">1</span> из 40</p>
+            </div>
+
+            <div class="test-content">
+                <div class="question-container" id="anxiety-question-container">
+                    <!-- Вопросы будут загружены динамически -->
+                </div>
+                
+                <div class="test-navigation">
+                    <button id="anxiety-prev-question" class="btn-secondary" disabled>Назад</button>
+                    <button id="anxiety-next-question" class="btn-primary">Далее</button>
+                    <button id="anxiety-finish-test" class="btn-success" style="display: none;">Завершить тест</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран результатов теста тревоги -->
+        <div id="anxiety-results-screen" class="screen">
+            <h1>Результаты теста тревоги</h1>
+            <div class="results-container">
+                <div class="result-card">
+                    <h3>Ситуационная тревожность</h3>
+                    <div class="score-display">
+                        <span class="score" id="anxiety-state-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="anxiety-state-level">Низкий уровень</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Личностная тревожность</h3>
+                    <div class="score-display">
+                        <span class="score" id="anxiety-trait-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="anxiety-trait-level">Низкий уровень</div>
+                </div>
+                
+                <div class="result-summary" id="anxiety-summary">
+                    <!-- Сводка результатов будет загружена динамически -->
+                </div>
+                
+                <div class="result-recommendations" id="anxiety-recommendations">
+                    <!-- Рекомендации будут загружены динамически -->
+                </div>
+            </div>
+            
+            <div class="results-actions">
+                <button id="anxiety-back-to-menu" class="btn-primary">Вернуться к тестам</button>
+                <button id="anxiety-restart-test" class="btn-secondary">Пройти тест заново</button>
+            </div>
+        </div>
+
+        <!-- Экран теста депрессии -->
+        <div id="depression-test-screen" class="screen">
+            <div class="test-header">
+                <h1>Шкала депрессии Бека</h1>
+                <p>Оценка депрессивных симптомов</p>
+                
+                <!-- Инструкция для теста депрессии -->
+                <div class="test-instruction">
+                    <h3>Инструкция</h3>
+                    <p>Этот опросник содержит группы утверждений. Внимательно прочитайте каждую группу утверждений. Затем выберите одно утверждение в каждой группе, которое лучше всего описывает то, как вы себя чувствовали НА ЭТОЙ НЕДЕЛЕ И СЕГОДНЯ.</p>
+                    <p>Если несколько утверждений в группе кажутся вам одинаково подходящими, выберите все подходящие. Убедитесь, что вы прочитали все утверждения в каждой группе, прежде чем сделать выбор.</p>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="depression-progress"></div>
+                </div>
+                <p class="question-counter">Вопрос <span id="depression-current-question">1</span> из 21</p>
+            </div>
+
+            <div class="test-content">
+                <div class="question-container" id="depression-question-container">
+                    <!-- Вопросы будут загружены динамически -->
+                </div>
+                
+                <div class="test-navigation">
+                    <button id="depression-prev-question" class="btn-secondary" disabled>Назад</button>
+                    <button id="depression-next-question" class="btn-primary">Далее</button>
+                    <button id="depression-finish-test" class="btn-success" style="display: none;">Завершить тест</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран результатов теста депрессии -->
+        <div id="depression-results-screen" class="screen">
+            <h1>Результаты теста депрессии</h1>
+            <div class="results-container">
+                <div class="result-card">
+                    <h3>Общий балл</h3>
+                    <div class="score-display">
+                        <span class="score" id="depression-total-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="depression-level">Отсутствие депрессивных симптомов</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Когнитивно-аффективная субшкала</h3>
+                    <div class="score-display">
+                        <span class="score" id="depression-cognitive-affective-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="score-description">Вопросы 1-13</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Соматическая субшкала</h3>
+                    <div class="score-display">
+                        <span class="score" id="depression-somatic-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="score-description">Вопросы 14-21</div>
+                </div>
+                
+                <div class="result-summary" id="depression-summary">
+                    <!-- Сводка результатов будет загружена динамически -->
+                </div>
+                
+                <div class="result-recommendations" id="depression-recommendations">
+                    <!-- Рекомендации будут загружены динамически -->
+                </div>
+            </div>
+            
+            <div class="results-actions">
+                <button id="depression-back-to-menu" class="btn-primary">Вернуться к тестам</button>
+                <button id="depression-restart-test" class="btn-secondary">Пройти тест заново</button>
+            </div>
+        </div>
+
+        <!-- Экран теста на буллинг -->
+        <div id="bullying-test-screen" class="screen">
+            <div class="test-header">
+                <h1>Опросник риска буллинга</h1>
+                <p>Оценка атмосферы в школе и риска буллинга</p>
+                
+                <!-- Инструкция для теста на буллинг -->
+                <div class="test-instruction">
+                    <h3>Инструкция</h3>
+                    <p>Этот опросник поможет оценить атмосферу в вашем классе и выявить возможные риски буллинга. Отвечайте честно, выбирая "ДА" или "НЕТ" для каждого утверждения.</p>
+                    <p>Опросник анонимный, ваши ответы будут использованы только для анализа ситуации в классе.</p>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="bullying-progress"></div>
+                </div>
+                <p class="question-counter">Вопрос <span id="bullying-current-question">1</span> из 48</p>
+            </div>
+
+            <div class="test-content">
+                <div class="question-container" id="bullying-question-container">
+                    <!-- Вопросы будут загружены динамически -->
+                </div>
+                
+                <div class="test-navigation">
+                    <button id="bullying-prev-question" class="btn-secondary" disabled>Назад</button>
+                    <button id="bullying-next-question" class="btn-primary">Далее</button>
+                    <button id="bullying-finish-test" class="btn-success" style="display: none;">Завершить тест</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран результатов теста на буллинг -->
+        <div id="bullying-results-screen" class="screen">
+            <h1>Результаты теста на буллинг</h1>
+            <div class="results-container">
+                <div class="result-card">
+                    <h3>Шкала небезопасности</h3>
+                    <div class="score-display">
+                        <span class="score" id="bullying-insecurity-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="bullying-insecurity-level">Низкий</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Шкала благополучия</h3>
+                    <div class="score-display">
+                        <span class="score" id="bullying-wellbeing-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="bullying-wellbeing-level">Низкий</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Шкала разобщенности</h3>
+                    <div class="score-display">
+                        <span class="score" id="bullying-disunity-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="bullying-disunity-level">Низкий</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Шкала равноправия</h3>
+                    <div class="score-display">
+                        <span class="score" id="bullying-equality-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="bullying-equality-level">Низкий</div>
+                </div>
+                
+                <div class="result-summary" id="bullying-summary">
+                    <!-- Сводка результатов будет загружена динамически -->
+                </div>
+                
+                <div class="result-recommendations" id="bullying-recommendations">
+                    <!-- Рекомендации будут загружены динамически -->
+                </div>
+            </div>
+            
+            <div class="results-actions">
+                <button id="bullying-back-to-menu" class="btn-primary">Вернуться к тестам</button>
+                <button id="bullying-restart-test" class="btn-secondary">Пройти тест заново</button>
+            </div>
+        </div>
+
+        <!-- Экран теста Д. Олвеуса "Буллинг" -->
+        <div id="olweus-bullying-test-screen" class="screen">
+            <div class="test-header">
+                <h1>Опросник Д. Олвеуса «Буллинг»</h1>
+                <p>Выявление проявлений буллинга и подверженности ему</p>
+                
+                <!-- Инструкция для теста Д. Олвеуса -->
+                <div class="test-instruction">
+                    <h3>Инструкция</h3>
+                    <p>Внимательно прочитайте утверждения, выберите вариант ответа и отметьте его любым знаком:</p>
+                    <div class="instruction-scale">
+                        <div class="instruction-item">
+                            <span class="instruction-number">0</span>
+                            <span class="instruction-text">никогда не было</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">1</span>
+                            <span class="instruction-text">было раз или два</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">2</span>
+                            <span class="instruction-text">бывает иногда</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">3</span>
+                            <span class="instruction-text">бывает раз в неделю</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="instruction-number">4</span>
+                            <span class="instruction-text">бывает несколько раз в неделю</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="olweus-bullying-progress"></div>
+                </div>
+                <p class="question-counter">Вопрос <span id="olweus-bullying-current-question">1</span> из 13</p>
+            </div>
+
+            <div class="test-content">
+                <div class="question-container" id="olweus-bullying-question-container">
+                    <!-- Вопросы будут загружены динамически -->
+                </div>
+                
+                <div class="test-navigation">
+                    <button id="olweus-bullying-prev-question" class="btn-secondary" disabled>Назад</button>
+                    <button id="olweus-bullying-next-question" class="btn-primary">Далее</button>
+                    <button id="olweus-bullying-finish-test" class="btn-success" style="display: none;">Завершить тест</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран результатов теста Д. Олвеуса -->
+        <div id="olweus-bullying-results-screen" class="screen">
+            <h1>Результаты теста Д. Олвеуса «Буллинг»</h1>
+            <div class="results-container">
+                <div class="result-card">
+                    <h3>Активный буллинг (проявление агрессии)</h3>
+                    <div class="score-display">
+                        <span class="score" id="olweus-active-bullying-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="olweus-active-bullying-level">Слабо выражен</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Прямой активный буллинг</h3>
+                    <div class="score-display">
+                        <span class="score" id="olweus-direct-active-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="olweus-direct-active-level">Слабо выражен</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Косвенный активный буллинг</h3>
+                    <div class="score-display">
+                        <span class="score" id="olweus-indirect-active-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="olweus-indirect-active-level">Слабо выражен</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Пассивный буллинг (виктимизация)</h3>
+                    <div class="score-display">
+                        <span class="score" id="olweus-passive-bullying-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="olweus-passive-bullying-level">Слабо выражен</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Прямая виктимизация</h3>
+                    <div class="score-display">
+                        <span class="score" id="olweus-direct-victim-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="olweus-direct-victim-level">Слабо выражен</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Косвенная виктимизация</h3>
+                    <div class="score-display">
+                        <span class="score" id="olweus-indirect-victim-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="olweus-indirect-victim-level">Слабо выражен</div>
+                </div>
+                
+                <div class="result-summary" id="olweus-bullying-summary">
+                    <!-- Сводка результатов будет загружена динамически -->
+                </div>
+                
+                <div class="result-recommendations" id="olweus-bullying-recommendations">
+                    <!-- Рекомендации будут загружены динамически -->
+                </div>
+            </div>
+            
+            <div class="results-actions">
+                <button id="olweus-bullying-back-to-menu" class="btn-primary">Вернуться к тестам</button>
+                <button id="olweus-bullying-restart-test" class="btn-secondary">Пройти тест заново</button>
+            </div>
+        </div>
+
+        <!-- Экран теста агрессивного поведения -->
+        <div id="aggression-test-screen" class="screen">
+            <div class="test-header">
+                <h1>Диагностика агрессивного поведения</h1>
+                <p>Опросник Л.Г. Почебут для оценки агрессивного поведения</p>
+            </div>
+
+            <div class="test-progress">
+                <div class="progress-info">
+                    <span class="progress-text">Прогресс</span>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="aggression-progress"></div>
+                </div>
+                <p class="question-counter">Вопрос <span id="aggression-current-question">1</span> из 40</p>
+            </div>
+
+            <div class="test-content">
+                <div class="question-container" id="aggression-question-container">
+                    <!-- Вопросы будут загружены динамически -->
+                </div>
+                
+                <div class="test-navigation">
+                    <button id="aggression-prev-question" class="btn-secondary" disabled>Назад</button>
+                    <button id="aggression-next-question" class="btn-primary">Далее</button>
+                    <button id="aggression-finish-test" class="btn-success" style="display: none;">Завершить тест</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран результатов теста агрессивного поведения -->
+        <div id="aggression-results-screen" class="screen">
+            <h1>Результаты диагностики агрессивного поведения</h1>
+            <div class="results-container">
+                <div class="result-card">
+                    <h3>Вербальная агрессия (ВА)</h3>
+                    <div class="score-display">
+                        <span class="score" id="aggression-verbal-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="aggression-verbal-level">Низкая</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Физическая агрессия (ФА)</h3>
+                    <div class="score-display">
+                        <span class="score" id="aggression-physical-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="aggression-physical-level">Низкая</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Предметная агрессия (ПА)</h3>
+                    <div class="score-display">
+                        <span class="score" id="aggression-object-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="aggression-object-level">Низкая</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Эмоциональная агрессия (ЭА)</h3>
+                    <div class="score-display">
+                        <span class="score" id="aggression-emotional-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="aggression-emotional-level">Низкая</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Самоагрессия (СА)</h3>
+                    <div class="score-display">
+                        <span class="score" id="aggression-self-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="aggression-self-level">Низкая</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Общий уровень агрессивности</h3>
+                    <div class="score-display">
+                        <span class="score" id="aggression-total-score">0</span>
+                        <span class="score-label">баллов</span>
+                    </div>
+                    <div class="level-indicator" id="aggression-total-level">Низкая</div>
+                </div>
+                
+                <div class="result-summary" id="aggression-summary">
+                    <!-- Сводка результатов будет загружена динамически -->
+                </div>
+                
+                <div class="result-recommendations" id="aggression-recommendations">
+                    <!-- Рекомендации будут загружены динамически -->
+                </div>
+            </div>
+            
+            <div class="results-actions">
+                <button id="aggression-back-to-menu" class="btn-primary">Вернуться к тестам</button>
+                <button id="aggression-restart-test" class="btn-secondary">Пройти тест заново</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
